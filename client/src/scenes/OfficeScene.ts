@@ -108,11 +108,11 @@ export class OfficeScene extends Phaser.Scene {
         this.add.image(pos.x, pos.y, 'glass_wall').setDepth(1);
       }
     }
-    // Meeting room floor (inside the room)
+    // Meeting room floor (grass inside the room)
     for (let y = MEETING_ROOM.gridY; y < MEETING_ROOM.gridY + MEETING_ROOM.height - 1; y++) {
       for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
         const pos = gridToPixel(x, y);
-        this.add.image(pos.x, pos.y, 'tile_floor').setDepth(0);
+        this.add.image(pos.x, pos.y, 'grass').setDepth(0);
       }
     }
     // Meeting room label (below the glass wall)
