@@ -13,6 +13,8 @@ export interface Desk {
   occupantId?: string;
 }
 
+export type DeviceType = 'laptop' | 'phone' | 'tablet' | 'router' | 'unknown';
+
 export interface Device {
   id: string;
   ip: string;
@@ -22,6 +24,8 @@ export interface Device {
   displayName?: string;
   online: boolean;
   lastSeen: number;
+  deviceType?: DeviceType;
+  vendor?: string;
 }
 
 export interface CharacterConfig {

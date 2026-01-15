@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
 import type { Device } from '../../shared/types.js';
 import { config } from '../config.js';
+import { lookupMacVendor } from './macVendor.js';
 
 interface DeviceStore {
   devices: Record<string, Device>;
@@ -53,6 +54,8 @@ class DeviceRegistry {
 
   registerDevice(mac: string, ip: string): Device {
     let device = this.store.devices[mac];
+    const vendorInfo = lookupMacVendor(mac);
+
     if (!device) {
       device = {
         id: mac,
@@ -62,14 +65,21 @@ class DeviceRegistry {
         deskId: null,
         online: true,
         lastSeen: Date.now(),
+        deviceType: vendorInfo.type,
+        vendor: vendorInfo.vendor,
       };
       this.store.nextCharacterId++;
       this.store.devices[mac] = device;
-      console.log(`New device: ${mac} -> Character ${device.characterId}`);
+      console.log(`New device: ${mac} -> ${vendorInfo.vendor} (${vendorInfo.type})`);
     } else {
       device.ip = ip;
       device.online = true;
       device.lastSeen = Date.now();
+      // Update vendor info if not set
+      if (!device.deviceType) {
+        device.deviceType = vendorInfo.type;
+        device.vendor = vendorInfo.vendor;
+      }
     }
     this.save();
     return device;

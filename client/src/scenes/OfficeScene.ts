@@ -114,6 +114,16 @@ export class OfficeScene extends Phaser.Scene {
     char.walkToDesk(pos.gridX, pos.gridY);
   }
 
+  private getDeviceEmoji(type?: string): string {
+    switch (type) {
+      case 'laptop': return '💻';
+      case 'phone': return '📱';
+      case 'tablet': return '📱';
+      case 'router': return '📡';
+      default: return '❓';
+    }
+  }
+
   private updateSidebar(): void {
     const list = document.getElementById('device-list');
     if (!list) return;
@@ -123,7 +133,9 @@ export class OfficeScene extends Phaser.Scene {
       li.className = d.online ? '' : 'offline';
       const color = CHARACTER_COLORS[d.characterId];
       const hex = color ? `#${color.color.toString(16).padStart(6, '0')}` : '#888';
-      li.innerHTML = `<span class="device-color" style="background:${hex}"></span><strong>${d.displayName || `Device ${d.characterId + 1}`}</strong><br><small>${d.ip}${d.deskId ? ` • Desk ${d.deskId}` : ''}</small>`;
+      const emoji = this.getDeviceEmoji(d.deviceType);
+      const vendor = d.vendor || 'Unknown';
+      li.innerHTML = `<span class="device-color" style="background:${hex}"></span>${emoji} <strong>${d.displayName || `Device ${d.characterId + 1}`}</strong><br><small>${vendor} • ${d.ip}${d.deskId ? ` • Desk ${d.deskId}` : ''}</small>`;
       list.appendChild(li);
     }
   }
