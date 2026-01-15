@@ -100,18 +100,38 @@ export interface MeetingRoomConfig {
   doors: { gridX: number; gridY: number }[];
 }
 
-export const MEETING_ROOM: MeetingRoomConfig = {
-  id: 'meeting-room-1',
-  name: 'Meeting Room',
-  gridX: 1,
-  gridY: 1,
-  width: 23,  // Full width minus side walls
-  height: 2,
-  doors: [
-    { gridX: 5, gridY: 2 },   // Door near Table 1
-    { gridX: 18, gridY: 2 },  // Door near Table 2
-  ],
-};
+export const MEETING_ROOMS: MeetingRoomConfig[] = [
+  {
+    id: 'meeting-room-1',
+    name: 'Room A',
+    gridX: 1,
+    gridY: 1,
+    width: 7,
+    height: 2,
+    doors: [{ gridX: 4, gridY: 2 }],
+  },
+  {
+    id: 'meeting-room-2',
+    name: 'Room B',
+    gridX: 9,
+    gridY: 1,
+    width: 7,
+    height: 2,
+    doors: [{ gridX: 12, gridY: 2 }],
+  },
+  {
+    id: 'meeting-room-3',
+    name: 'Room C',
+    gridX: 17,
+    gridY: 1,
+    width: 7,
+    height: 2,
+    doors: [{ gridX: 20, gridY: 2 }],
+  },
+];
+
+// Legacy single meeting room reference (for compatibility)
+export const MEETING_ROOM = MEETING_ROOMS[0];
 
 // Communal spaces - Kitchen left, Lounge center, Door right
 export const COMMUNAL_SPACES = [
@@ -168,15 +188,34 @@ export const ACTIVITY_ZONES: ActivityZone[] = [
     weight: 2,
   },
   {
-    id: 'meeting_room',
-    name: 'Meeting Room',
+    id: 'meeting_room_a',
+    name: 'Room A',
     waypoints: [
-      { x: 5, y: 1 }, { x: 6, y: 1 }, { x: 7, y: 1 },     // Left side inside
-      { x: 17, y: 1 }, { x: 18, y: 1 }, { x: 19, y: 1 },  // Right side inside
+      { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }, { x: 5, y: 1 },
     ],
-    capacity: 6,
-    durationRange: [30000, 90000],  // 30-90 seconds (meetings take longer)
-    weight: 1,  // Less frequent
+    capacity: 3,
+    durationRange: [30000, 90000],
+    weight: 1,
+  },
+  {
+    id: 'meeting_room_b',
+    name: 'Room B',
+    waypoints: [
+      { x: 10, y: 1 }, { x: 11, y: 1 }, { x: 12, y: 1 }, { x: 13, y: 1 },
+    ],
+    capacity: 3,
+    durationRange: [30000, 90000],
+    weight: 1,
+  },
+  {
+    id: 'meeting_room_c',
+    name: 'Room C',
+    waypoints: [
+      { x: 18, y: 1 }, { x: 19, y: 1 }, { x: 20, y: 1 }, { x: 21, y: 1 },
+    ],
+    capacity: 3,
+    durationRange: [30000, 90000],
+    weight: 1,
   },
   {
     id: 'table_5_social',
@@ -225,12 +264,22 @@ export function generateCollisionMap(): number[][] {
       if (ty < MAP_HEIGHT && tx < MAP_WIDTH) map[ty][tx] = 1;
     }
   }
-  // Block meeting room front glass wall (except doors)
-  const frontWallY = MEETING_ROOM.gridY + MEETING_ROOM.height - 1;
-  for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
-    const isDoor = MEETING_ROOM.doors.some(d => d.gridX === x && d.gridY === frontWallY);
-    if (!isDoor) {
-      map[frontWallY][x] = 1;
+  // Block meeting room front glass walls (except doors) and side dividers
+  for (const room of MEETING_ROOMS) {
+    const frontWallY = room.gridY + room.height - 1;
+    // Front glass wall
+    for (let x = room.gridX; x < room.gridX + room.width; x++) {
+      const isDoor = room.doors.some(d => d.gridX === x && d.gridY === frontWallY);
+      if (!isDoor) {
+        map[frontWallY][x] = 1;
+      }
+    }
+    // Side divider walls (right edge of each room, except last room)
+    const rightEdgeX = room.gridX + room.width;
+    if (rightEdgeX < MAP_WIDTH - 1) {
+      for (let y = room.gridY; y < room.gridY + room.height; y++) {
+        map[y][rightEdgeX] = 1;
+      }
     }
   }
   return map;

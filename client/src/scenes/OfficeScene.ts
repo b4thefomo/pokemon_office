@@ -4,7 +4,7 @@ import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
 import { ActivityManager } from '../managers/ActivityManager';
 import { wsManager } from '../managers/wsInstance';
-import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, POOL_TABLE, MEETING_ROOM, gridToPixel } from '../config/officeLayout';
+import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, POOL_TABLE, MEETING_ROOMS, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
 import { CHARACTER_COLORS } from '../../../shared/types';
 
@@ -99,28 +99,44 @@ export class OfficeScene extends Phaser.Scene {
     this.add.image(poolPos.x + 32, poolPos.y + 40, 'pool_table').setDepth(1);
     this.add.text(poolPos.x + 48, poolPos.y + 100, 'Pool', { fontSize: '8px', color: '#2ecc71' }).setOrigin(0.5, 0).setDepth(2);
 
-    // Draw meeting room glass walls and doors
-    const frontWallY = MEETING_ROOM.gridY + MEETING_ROOM.height - 1;
-    for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
-      const pos = gridToPixel(x, frontWallY);
-      const isDoor = MEETING_ROOM.doors.some(d => d.gridX === x && d.gridY === frontWallY);
-      if (isDoor) {
-        this.add.image(pos.x, pos.y, 'glass_door').setDepth(1);
-      } else {
-        this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
+    // Draw meeting rooms with glass walls, doors, and dividers
+    for (let i = 0; i < MEETING_ROOMS.length; i++) {
+      const room = MEETING_ROOMS[i];
+      const frontWallY = room.gridY + room.height - 1;
+
+      // Front glass wall
+      for (let x = room.gridX; x < room.gridX + room.width; x++) {
+        const pos = gridToPixel(x, frontWallY);
+        const isDoor = room.doors.some(d => d.gridX === x && d.gridY === frontWallY);
+        if (isDoor) {
+          this.add.image(pos.x, pos.y, 'glass_door').setDepth(1);
+        } else {
+          this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
+        }
       }
-    }
-    // Meeting room floor (grass inside the room)
-    for (let y = MEETING_ROOM.gridY; y < MEETING_ROOM.gridY + MEETING_ROOM.height - 1; y++) {
-      for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
-        const pos = gridToPixel(x, y);
-        this.add.image(pos.x, pos.y, 'grass').setDepth(0);
+
+      // Side divider (glass wall between rooms)
+      if (i < MEETING_ROOMS.length - 1) {
+        const dividerX = room.gridX + room.width;
+        for (let y = room.gridY; y < room.gridY + room.height; y++) {
+          const pos = gridToPixel(dividerX, y);
+          this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
+        }
       }
+
+      // Room floor (grass inside)
+      for (let y = room.gridY; y < room.gridY + room.height - 1; y++) {
+        for (let x = room.gridX; x < room.gridX + room.width; x++) {
+          const pos = gridToPixel(x, y);
+          this.add.image(pos.x, pos.y, 'grass').setDepth(0);
+        }
+      }
+
+      // Room label (below the glass wall)
+      const labelPos = gridToPixel(room.gridX + room.width / 2, room.gridY + room.height);
+      this.add.text(labelPos.x, labelPos.y - 8, room.name, { fontSize: '10px', color: '#7fdbff' })
+        .setOrigin(0.5).setDepth(2);
     }
-    // Meeting room label (below the glass wall)
-    const meetingLabelPos = gridToPixel(MEETING_ROOM.gridX + MEETING_ROOM.width / 2, MEETING_ROOM.gridY + MEETING_ROOM.height);
-    this.add.text(meetingLabelPos.x, meetingLabelPos.y - 8, MEETING_ROOM.name, { fontSize: '10px', color: '#7fdbff' })
-      .setOrigin(0.5).setDepth(2);
 
     // Draw communal spaces
     for (const space of COMMUNAL_SPACES) {
