@@ -5,6 +5,10 @@ import { TILE_SIZE } from '../config/officeLayout';
 export class PreloadScene extends Phaser.Scene {
   constructor() { super({ key: 'PreloadScene' }); }
 
+  preload(): void {
+    this.load.image('tile_desk', 'src/assets/sprites/single_table.png');
+  }
+
   create(): void {
     this.generateCharacterSprites();
     this.generateOfficeSprites();
@@ -53,7 +57,6 @@ export class PreloadScene extends Phaser.Scene {
   private generateOfficeSprites(): void {
     const sprites = [
       { key: 'tile_floor', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x3a3a5e); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); g.lineStyle(1, 0x4a4a6e); g.strokeRect(0, 0, TILE_SIZE, TILE_SIZE); } },
-      { key: 'tile_desk', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x8b4513); g.fillRoundedRect(2, 8, TILE_SIZE - 4, TILE_SIZE - 10, 2); g.fillStyle(0x2a2a4e); g.fillRect(10, 2, 12, 8); g.fillStyle(0x4a4a8a); g.fillRect(12, 4, 8, 4); } },
       { key: 'tile_chair', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x5a5a7a); g.fillCircle(TILE_SIZE / 2, TILE_SIZE / 2, 10); g.lineStyle(2, 0x6a6a8a); g.strokeCircle(TILE_SIZE / 2, TILE_SIZE / 2, 10); } },
       { key: 'tile_wall', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x4a4a6a); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); g.lineStyle(2, 0x5a5a7a); g.strokeRect(0, 0, TILE_SIZE, TILE_SIZE); } },
       { key: 'tile_door', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x2ecc71); g.fillRect(4, 0, TILE_SIZE - 8, TILE_SIZE); g.fillStyle(0x27ae60); g.fillRect(6, 4, TILE_SIZE - 12, TILE_SIZE - 8); } },
