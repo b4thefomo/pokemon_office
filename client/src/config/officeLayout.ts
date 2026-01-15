@@ -182,10 +182,11 @@ export const ACTIVITY_ZONES: ActivityZone[] = [
     id: 'table_5_social',
     name: 'Table 5 Area',
     waypoints: [
-      { x: 15, y: 14 }, { x: 15, y: 15 },  // Near left side
-      { x: 20, y: 14 }, { x: 20, y: 15 },  // Near right side
+      { x: 15, y: 13 }, { x: 15, y: 14 }, { x: 15, y: 15 }, { x: 15, y: 16 },  // Left side
+      { x: 20, y: 13 }, { x: 20, y: 14 }, { x: 20, y: 15 }, { x: 20, y: 16 },  // Right side
+      { x: 16, y: 17 }, { x: 19, y: 17 },  // Bottom area
     ],
-    capacity: 4,
+    capacity: 10,
     durationRange: [15000, 40000],  // 15-40 seconds
     weight: 2,
   },
