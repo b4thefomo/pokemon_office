@@ -8,6 +8,7 @@ export class PreloadScene extends Phaser.Scene {
   create(): void {
     this.generateCharacterSprites();
     this.generateOfficeSprites();
+    this.generateRamenSprite();
     this.scene.start('OfficeScene');
   }
 
@@ -65,5 +66,66 @@ export class PreloadScene extends Phaser.Scene {
       g.generateTexture(key, TILE_SIZE, TILE_SIZE);
       g.destroy();
     }
+  }
+
+  private generateRamenSprite(): void {
+    const g = this.make.graphics({ x: 0, y: 0 });
+
+    // Bowl (white/cream ceramic)
+    g.fillStyle(0xf5f5dc);
+    g.fillEllipse(16, 22, 28, 14);
+    g.fillStyle(0xffe4c4);
+    g.fillEllipse(16, 18, 26, 12);
+
+    // Broth (golden/orange)
+    g.fillStyle(0xd4a056);
+    g.fillEllipse(16, 18, 22, 9);
+
+    // Noodles (wavy yellow lines)
+    g.lineStyle(2, 0xf4d03f);
+    g.beginPath();
+    g.moveTo(8, 16); g.lineTo(10, 19); g.lineTo(8, 22);
+    g.moveTo(12, 15); g.lineTo(14, 18); g.lineTo(12, 21);
+    g.moveTo(16, 14); g.lineTo(18, 17); g.lineTo(16, 20);
+    g.moveTo(20, 15); g.lineTo(22, 18); g.lineTo(20, 21);
+    g.strokePath();
+
+    // Egg half (white + orange yolk)
+    g.fillStyle(0xffffff);
+    g.fillEllipse(22, 16, 6, 4);
+    g.fillStyle(0xffa500);
+    g.fillCircle(22, 16, 2);
+
+    // Narutomaki (pink swirl fish cake)
+    g.fillStyle(0xffc0cb);
+    g.fillCircle(10, 17, 3);
+    g.lineStyle(1, 0xff69b4);
+    g.beginPath();
+    g.arc(10, 17, 1.5, 0, Math.PI * 1.5);
+    g.strokePath();
+
+    // Green onion garnish
+    g.fillStyle(0x228b22);
+    g.fillCircle(14, 13, 1.5);
+    g.fillCircle(18, 12, 1.5);
+    g.fillCircle(16, 14, 1);
+
+    // Chopsticks
+    g.lineStyle(2, 0x8b4513);
+    g.beginPath();
+    g.moveTo(24, 8); g.lineTo(28, 24);
+    g.moveTo(26, 8); g.lineTo(30, 22);
+    g.strokePath();
+
+    // Steam wisps
+    g.lineStyle(1, 0xffffff, 0.6);
+    g.beginPath();
+    g.moveTo(12, 8); g.quadraticCurveTo(10, 5, 12, 2);
+    g.moveTo(16, 7); g.quadraticCurveTo(18, 4, 16, 1);
+    g.moveTo(20, 8); g.quadraticCurveTo(22, 5, 20, 2);
+    g.strokePath();
+
+    g.generateTexture('ramen', 32, 32);
+    g.destroy();
   }
 }

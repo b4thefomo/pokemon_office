@@ -42,6 +42,10 @@ export class OfficeScene extends Phaser.Scene {
       const pos = gridToPixel(space.gridX, space.gridY);
       this.add.image(pos.x, pos.y, space.id === 'kitchen' ? 'tile_kitchen' : 'tile_lounge').setDepth(1);
       this.add.text(pos.x, pos.y + 20, space.name, { fontSize: '8px', color: '#aaa' }).setOrigin(0.5, 0).setDepth(2);
+      // Add ramen bowl to kitchen
+      if (space.id === 'kitchen') {
+        this.add.image(pos.x + 32, pos.y, 'ramen').setDepth(2);
+      }
     }
     const doorPos = gridToPixel(ENTRY_POINT.gridX, ENTRY_POINT.gridY);
     this.add.image(doorPos.x, doorPos.y, 'tile_door').setDepth(1);
