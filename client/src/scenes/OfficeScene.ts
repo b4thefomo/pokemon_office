@@ -107,7 +107,7 @@ export class OfficeScene extends Phaser.Scene {
       if (isDoor) {
         this.add.image(pos.x, pos.y, 'glass_door').setDepth(1);
       } else {
-        this.add.image(pos.x, pos.y, 'glass_wall').setDepth(1);
+        this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
       }
     }
     // Meeting room floor (grass inside the room)

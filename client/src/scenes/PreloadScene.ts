@@ -26,6 +26,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('pool_table', 'src/assets/sprites/pool_table.png');
     this.load.image('long_table_vertical', 'src/assets/sprites/long_table_vertical.png');
     this.load.image('glass_wall', 'src/assets/sprites/glass_wall.png');
+    this.load.image('meeting_glass', 'src/assets/sprites/meeting_glass.png');
     this.load.image('glass_door', 'src/assets/sprites/glass_door.png');
     this.load.image('white_brick', 'src/assets/sprites/white_brick.png');
     this.load.image('grass', 'src/assets/sprites/grass.png');
