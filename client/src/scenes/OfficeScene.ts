@@ -29,45 +29,17 @@ export class OfficeScene extends Phaser.Scene {
     const navbarHeight = TILE_SIZE;
     const navbarY = navbarHeight / 2;
     const navbar = this.add.graphics();
-    navbar.fillStyle(0x1a1a2e);
+    navbar.fillStyle(0x0F1235);
     navbar.fillRect(0, 0, MAP_WIDTH * TILE_SIZE, navbarHeight);
     navbar.lineStyle(2, 0x57FDD0, 0.3);
     navbar.lineBetween(0, navbarHeight, MAP_WIDTH * TILE_SIZE, navbarHeight);
     navbar.setDepth(9);
 
     // Ramen logo in navbar
-    const bowl = this.add.graphics();
-    bowl.setPosition(50, navbarY);
-    // Bowl (cream ceramic)
-    bowl.fillStyle(0xf5f5dc);
-    bowl.fillEllipse(0, 4, 24, 12);
-    bowl.fillStyle(0xffe4c4);
-    bowl.fillEllipse(0, 1, 22, 10);
-    // Broth (golden)
-    bowl.fillStyle(0xd4a056);
-    bowl.fillEllipse(0, 1, 18, 7);
-    // Noodles (yellow wavy)
-    bowl.lineStyle(1.5, 0xf4d03f);
-    bowl.beginPath();
-    bowl.moveTo(-6, 0); bowl.lineTo(-4, 2); bowl.lineTo(-6, 4);
-    bowl.moveTo(-2, -1); bowl.lineTo(0, 1); bowl.lineTo(-2, 3);
-    bowl.moveTo(2, -1); bowl.lineTo(4, 1); bowl.lineTo(2, 3);
-    bowl.strokePath();
-    // Egg
-    bowl.fillStyle(0xffffff);
-    bowl.fillEllipse(5, 0, 5, 3);
-    bowl.fillStyle(0xffa500);
-    bowl.fillCircle(5, 0, 1.5);
-    // Chopsticks
-    bowl.lineStyle(1.5, 0x8b4513);
-    bowl.beginPath();
-    bowl.moveTo(7, -6); bowl.lineTo(10, 6);
-    bowl.moveTo(9, -6); bowl.lineTo(12, 5);
-    bowl.strokePath();
-    bowl.setDepth(10);
+    const logo = this.add.image(30, navbarY, 'ramen_logo').setDepth(10).setScale(0.8);
 
     // Title text
-    const title = this.add.text(80, navbarY, 'RAMEN SPACE', {
+    const title = this.add.text(60, navbarY, 'RAMEN SPACE', {
       fontSize: '18px',
       color: '#57FDD0',
       fontStyle: 'bold'
@@ -75,8 +47,9 @@ export class OfficeScene extends Phaser.Scene {
 
     // Pulse animation for logo and title
     this.tweens.add({
-      targets: [bowl, title],
-      scale: { from: 1, to: 1.05 },
+      targets: [logo, title],
+      scaleX: { from: logo.scaleX, to: logo.scaleX * 1.05 },
+      scaleY: { from: logo.scaleY, to: logo.scaleY * 1.05 },
       alpha: { from: 1, to: 0.85 },
       duration: 1000,
       yoyo: true,
