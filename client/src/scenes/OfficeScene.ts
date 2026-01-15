@@ -47,7 +47,7 @@ export class OfficeScene extends Phaser.Scene {
     const logo = this.add.image(80, navY, 'ramen_logo').setDepth(10).setScale(0.9);
 
     // Title text next to logo
-    const title = this.add.text(120, navY, 'RAMEN SPACE', {
+    const title = this.add.text(120, navY, 'RAMEN SPACE LIVE', {
       fontSize: '18px',
       color: '#57FDD0',
       fontStyle: 'bold'
