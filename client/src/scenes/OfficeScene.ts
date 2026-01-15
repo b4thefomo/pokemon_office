@@ -25,51 +25,50 @@ export class OfficeScene extends Phaser.Scene {
     this.drawOffice();
     this.setupWebSocket();
     this.activityManager.start();
-    // Title with ramen logo - drawn with graphics for crisp scaling
-    const logoX = 400;
-    const logoY = 24;
+    // Navbar - spans full width at top
+    const navbarHeight = TILE_SIZE;
+    const navbarY = navbarHeight / 2;
+    const navbar = this.add.graphics();
+    navbar.fillStyle(0x1a1a2e);
+    navbar.fillRect(0, 0, MAP_WIDTH * TILE_SIZE, navbarHeight);
+    navbar.lineStyle(2, 0x57FDD0, 0.3);
+    navbar.lineBetween(0, navbarHeight, MAP_WIDTH * TILE_SIZE, navbarHeight);
+    navbar.setDepth(9);
 
-    // Create ramen bowl graphic
+    // Ramen logo in navbar
     const bowl = this.add.graphics();
-    bowl.setPosition(logoX - 70, logoY);
+    bowl.setPosition(50, navbarY);
     // Bowl (cream ceramic)
     bowl.fillStyle(0xf5f5dc);
-    bowl.fillEllipse(0, 6, 28, 14);
+    bowl.fillEllipse(0, 4, 24, 12);
     bowl.fillStyle(0xffe4c4);
-    bowl.fillEllipse(0, 2, 26, 12);
+    bowl.fillEllipse(0, 1, 22, 10);
     // Broth (golden)
     bowl.fillStyle(0xd4a056);
-    bowl.fillEllipse(0, 2, 22, 9);
+    bowl.fillEllipse(0, 1, 18, 7);
     // Noodles (yellow wavy)
-    bowl.lineStyle(2, 0xf4d03f);
+    bowl.lineStyle(1.5, 0xf4d03f);
     bowl.beginPath();
-    bowl.moveTo(-8, 0); bowl.lineTo(-6, 3); bowl.lineTo(-8, 6);
-    bowl.moveTo(-4, -1); bowl.lineTo(-2, 2); bowl.lineTo(-4, 5);
-    bowl.moveTo(0, -2); bowl.lineTo(2, 1); bowl.lineTo(0, 4);
-    bowl.moveTo(4, -1); bowl.lineTo(6, 2); bowl.lineTo(4, 5);
+    bowl.moveTo(-6, 0); bowl.lineTo(-4, 2); bowl.lineTo(-6, 4);
+    bowl.moveTo(-2, -1); bowl.lineTo(0, 1); bowl.lineTo(-2, 3);
+    bowl.moveTo(2, -1); bowl.lineTo(4, 1); bowl.lineTo(2, 3);
     bowl.strokePath();
-    // Egg (white + orange yolk)
+    // Egg
     bowl.fillStyle(0xffffff);
-    bowl.fillEllipse(6, 0, 6, 4);
+    bowl.fillEllipse(5, 0, 5, 3);
     bowl.fillStyle(0xffa500);
-    bowl.fillCircle(6, 0, 2);
-    // Narutomaki (pink fish cake)
-    bowl.fillStyle(0xffc0cb);
-    bowl.fillCircle(-6, 1, 3);
-    bowl.lineStyle(1, 0xff69b4);
-    bowl.beginPath();
-    bowl.arc(-6, 1, 1.5, 0, Math.PI * 1.5);
-    bowl.strokePath();
+    bowl.fillCircle(5, 0, 1.5);
     // Chopsticks
-    bowl.lineStyle(2, 0x8b4513);
+    bowl.lineStyle(1.5, 0x8b4513);
     bowl.beginPath();
-    bowl.moveTo(8, -8); bowl.lineTo(12, 8);
-    bowl.moveTo(10, -8); bowl.lineTo(14, 6);
+    bowl.moveTo(7, -6); bowl.lineTo(10, 6);
+    bowl.moveTo(9, -6); bowl.lineTo(12, 5);
     bowl.strokePath();
     bowl.setDepth(10);
 
-    const title = this.add.text(logoX, logoY, 'RAMEN SPACE', {
-      fontSize: '20px',
+    // Title text
+    const title = this.add.text(80, navbarY, 'RAMEN SPACE', {
+      fontSize: '18px',
       color: '#57FDD0',
       fontStyle: 'bold'
     }).setOrigin(0, 0.5).setDepth(10);
@@ -85,14 +84,12 @@ export class OfficeScene extends Phaser.Scene {
       ease: 'Sine.easeInOut'
     });
 
-    // Digital clock in top-right corner
-    this.clockText = this.add.text(775, 16, '', {
-      fontSize: '16px',
+    // Digital clock in navbar (right side)
+    this.clockText = this.add.text(MAP_WIDTH * TILE_SIZE - 16, navbarY, '', {
+      fontSize: '14px',
       color: '#57FDD0',
-      fontStyle: 'bold',
-      backgroundColor: '#000000aa',
-      padding: { x: 6, y: 2 }
-    }).setOrigin(1, 0).setDepth(10);
+      fontStyle: 'bold'
+    }).setOrigin(1, 0.5).setDepth(10);
     this.updateClock();
     this.time.addEvent({ delay: 1000, callback: this.updateClock, callbackScope: this, loop: true });
   }
