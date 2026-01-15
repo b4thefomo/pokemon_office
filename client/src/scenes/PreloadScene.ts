@@ -20,7 +20,13 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('tile_floor', 'src/assets/sprites/floor.png');
     this.load.image('tile_chair_north', 'src/assets/sprites/chair_north_facing.png');
     this.load.image('tile_chair_south', 'src/assets/sprites/chair_south_facing.png');
+    this.load.image('tile_chair_east', 'src/assets/sprites/chair_east_facing.png');
+    this.load.image('tile_chair_west', 'src/assets/sprites/chair_west_facing.png');
     this.load.image('tile_desk', '/single_table.png');
+    this.load.image('pool_table', 'src/assets/sprites/pool_table.png');
+    this.load.image('long_table_vertical', 'src/assets/sprites/long_table_vertical.png');
+    this.load.image('glass_wall', 'src/assets/sprites/glass_wall.png');
+    this.load.image('glass_door', 'src/assets/sprites/glass_door.png');
 
     // Load all 48 character sprites
     for (const sprite of CHARACTER_SPRITES) {

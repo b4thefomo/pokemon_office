@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- Door frame -->
+  <rect x="0" y="0" width="32" height="32" fill="#505860"/>
+
+  <!-- Glass panel -->
+  <rect x="4" y="2" width="24" height="28" fill="#a8d4e6" opacity="0.5"/>
+
+  <!-- Door frame inner border -->
+  <rect x="3" y="1" width="26" height="30" fill="none" stroke="#606870" stroke-width="2"/>
+
+  <!-- Glass reflections -->
+  <line x1="10" y1="4" x2="10" y2="28" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="22" y1="4" x2="22" y2="28" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+
+  <!-- Door handle -->
+  <rect x="22" y="14" width="4" height="6" rx="1" fill="#c0c0c0"/>
+  <rect x="23" y="15" width="2" height="4" rx="1" fill="#e0e0e0"/>
+
+  <!-- Floor gap (shows it's a door) -->
+  <rect x="4" y="29" width="24" height="3" fill="#3a3a3a"/>
+</svg>

@@ -3,7 +3,7 @@ import { Character } from '../entities/Character';
 import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
 import { wsManager } from '../managers/wsInstance';
-import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, gridToPixel } from '../config/officeLayout';
+import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, POOL_TABLE, MEETING_ROOM, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
 import { CHARACTER_COLORS } from '../../../shared/types';
 
@@ -37,10 +37,17 @@ export class OfficeScene extends Phaser.Scene {
 
     // Draw tables
     for (const table of TABLES) {
-      for (let ty = 0; ty < table.height; ty++) {
-        for (let tx = 0; tx < table.width; tx++) {
-          const pos = gridToPixel(table.gridX + tx, table.gridY + ty);
-          this.add.image(pos.x, pos.y, 'tile_desk').setDepth(1);
+      // Table 5 uses a custom long vertical sprite
+      if (table.id === 5) {
+        const pos = gridToPixel(table.gridX, table.gridY);
+        // Sprite is 64x128 (2x4 tiles), position at center
+        this.add.image(pos.x + 16, pos.y + 48, 'long_table_vertical').setDepth(1);
+      } else {
+        for (let ty = 0; ty < table.height; ty++) {
+          for (let tx = 0; tx < table.width; tx++) {
+            const pos = gridToPixel(table.gridX + tx, table.gridY + ty);
+            this.add.image(pos.x, pos.y, 'tile_desk').setDepth(1);
+          }
         }
       }
       // Table label
@@ -49,12 +56,46 @@ export class OfficeScene extends Phaser.Scene {
         .setOrigin(0.5).setDepth(2);
     }
 
-    // Draw chairs at each position (top-side chairs face south, bottom-side face north)
+    // Draw chairs at each position
     for (const chair of CHAIRS) {
       const pos = gridToPixel(chair.gridX, chair.gridY);
-      const chairSprite = chair.side === 'top' ? 'tile_chair_south' : 'tile_chair_north';
+      let chairSprite: string;
+      switch (chair.side) {
+        case 'top': chairSprite = 'tile_chair_south'; break;
+        case 'bottom': chairSprite = 'tile_chair_north'; break;
+        case 'left': chairSprite = 'tile_chair_east'; break;
+        case 'right': chairSprite = 'tile_chair_west'; break;
+      }
       this.add.image(pos.x, pos.y, chairSprite).setDepth(1);
     }
+
+    // Draw pool table (96x112 pixels)
+    const poolPos = gridToPixel(POOL_TABLE.gridX, POOL_TABLE.gridY);
+    this.add.image(poolPos.x + 32, poolPos.y + 40, 'pool_table').setDepth(1);
+    this.add.text(poolPos.x + 48, poolPos.y + 100, 'Pool', { fontSize: '8px', color: '#2ecc71' }).setOrigin(0.5, 0).setDepth(2);
+
+    // Draw meeting room glass walls and doors
+    const frontWallY = MEETING_ROOM.gridY + MEETING_ROOM.height - 1;
+    for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
+      const pos = gridToPixel(x, frontWallY);
+      const isDoor = MEETING_ROOM.doors.some(d => d.gridX === x && d.gridY === frontWallY);
+      if (isDoor) {
+        this.add.image(pos.x, pos.y, 'glass_door').setDepth(1);
+      } else {
+        this.add.image(pos.x, pos.y, 'glass_wall').setDepth(1);
+      }
+    }
+    // Meeting room floor (inside the room)
+    for (let y = MEETING_ROOM.gridY; y < MEETING_ROOM.gridY + MEETING_ROOM.height - 1; y++) {
+      for (let x = MEETING_ROOM.gridX; x < MEETING_ROOM.gridX + MEETING_ROOM.width; x++) {
+        const pos = gridToPixel(x, y);
+        this.add.image(pos.x, pos.y, 'tile_floor').setDepth(0);
+      }
+    }
+    // Meeting room label
+    const meetingLabelPos = gridToPixel(MEETING_ROOM.gridX + MEETING_ROOM.width / 2, MEETING_ROOM.gridY);
+    this.add.text(meetingLabelPos.x, meetingLabelPos.y, MEETING_ROOM.name, { fontSize: '10px', color: '#7fdbff' })
+      .setOrigin(0.5).setDepth(2);
 
     // Draw communal spaces
     for (const space of COMMUNAL_SPACES) {
