@@ -1,21 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
   <!-- Door frame -->
-  <rect x="0" y="0" width="32" height="32" fill="#505860"/>
+  <rect x="0" y="0" width="32" height="32" fill="#4a5560"/>
 
   <!-- Glass panel -->
-  <rect x="4" y="2" width="24" height="28" fill="#a8d4e6" opacity="0.5"/>
+  <rect x="3" y="2" width="26" height="27" fill="#87ceeb" opacity="0.55"/>
 
-  <!-- Door frame inner border -->
-  <rect x="3" y="1" width="26" height="30" fill="none" stroke="#606870" stroke-width="2"/>
-
-  <!-- Glass reflections -->
-  <line x1="10" y1="4" x2="10" y2="28" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
-  <line x1="22" y1="4" x2="22" y2="28" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <!-- Glass reflection -->
+  <line x1="8" y1="4" x2="8" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+  <line x1="20" y1="4" x2="20" y2="26" stroke="#ffffff" stroke-width="1" opacity="0.25"/>
 
   <!-- Door handle -->
-  <rect x="22" y="14" width="4" height="6" rx="1" fill="#c0c0c0"/>
-  <rect x="23" y="15" width="2" height="4" rx="1" fill="#e0e0e0"/>
+  <rect x="22" y="13" width="4" height="7" rx="1" fill="#b8b8b8"/>
+  <rect x="23" y="14" width="2" height="5" rx="0.5" fill="#d0d0d0"/>
 
-  <!-- Floor gap (shows it's a door) -->
-  <rect x="4" y="29" width="24" height="3" fill="#3a3a3a"/>
+  <!-- Bottom threshold -->
+  <rect x="3" y="29" width="26" height="3" fill="#3a4048"/>
 </svg>
