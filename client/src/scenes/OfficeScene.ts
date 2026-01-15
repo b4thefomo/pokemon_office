@@ -49,8 +49,10 @@ export class OfficeScene extends Phaser.Scene {
         let tile: string;
         if (x === 0) {
           tile = 'white_brick';  // Left wall is white brick
-        } else if (x === MAP_WIDTH - 1 || y === 0) {
-          tile = 'tile_wall';    // Other walls are black
+        } else if (x === MAP_WIDTH - 1) {
+          tile = 'glass_wall';   // Right wall is glass panels
+        } else if (y === 0) {
+          tile = 'tile_wall';    // Top wall is black
         } else {
           tile = 'tile_floor';
         }
@@ -131,10 +133,10 @@ export class OfficeScene extends Phaser.Scene {
       }
     }
 
-    // Draw door
+    // Draw entrance door (glass panel)
     const doorPos = gridToPixel(ENTRY_POINT.gridX, ENTRY_POINT.gridY);
-    this.add.image(doorPos.x, doorPos.y, 'tile_door').setDepth(1);
-    this.add.text(doorPos.x, doorPos.y + 20, 'ENTRANCE', { fontSize: '8px', color: '#2ecc71' }).setOrigin(0.5, 0).setDepth(2);
+    this.add.image(doorPos.x, doorPos.y, 'glass_door').setDepth(1);
+    this.add.text(doorPos.x, doorPos.y + 20, 'ENTRANCE', { fontSize: '8px', color: '#57FDD0' }).setOrigin(0.5, 0).setDepth(2);
   }
 
   private setupWebSocket(): void {
