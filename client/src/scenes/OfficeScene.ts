@@ -153,6 +153,17 @@ export class OfficeScene extends Phaser.Scene {
     const doorPos = gridToPixel(ENTRY_POINT.gridX, ENTRY_POINT.gridY);
     this.add.image(doorPos.x, doorPos.y, 'glass_door').setDepth(1);
     this.add.text(doorPos.x, doorPos.y + 20, 'ENTRANCE', { fontSize: '8px', color: '#57FDD0' }).setOrigin(0.5, 0).setDepth(2);
+
+    // Draw TV at end of Table 5 (conference area)
+    const tvPos = gridToPixel(18, 17);
+    this.add.image(tvPos.x, tvPos.y, 'tv').setDepth(1);
+
+    // Draw plants along right border
+    const plantPositions = [4, 7, 15, 18];
+    for (const y of plantPositions) {
+      const plantPos = gridToPixel(23, y);
+      this.add.image(plantPos.x, plantPos.y, 'plant').setDepth(1);
+    }
   }
 
   private setupWebSocket(): void {
