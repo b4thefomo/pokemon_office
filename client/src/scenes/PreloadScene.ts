@@ -10,6 +10,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('tile_floor', 'src/assets/sprites/floor.png');
     this.load.image('tile_chair_north', 'src/assets/sprites/chair_north_facing.png');
     this.load.image('tile_chair_south', 'src/assets/sprites/chair_south_facing.png');
+    this.load.image('tile_desk', '/single_table.png');
   }
 
   create(): void {

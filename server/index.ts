@@ -67,6 +67,15 @@ wss.on('connection', (ws) => {
   clients.add(ws);
   const fullState: FullStatePayload = { devices: deviceRegistry.getAllDevices(), desks: DESKS };
   ws.send(JSON.stringify({ type: 'state:full', payload: fullState }));
+  ws.on('message', (data) => {
+    try {
+      const msg = JSON.parse(data.toString());
+      if (msg.type === 'request:state') {
+        const state: FullStatePayload = { devices: deviceRegistry.getAllDevices(), desks: DESKS };
+        ws.send(JSON.stringify({ type: 'state:full', payload: state }));
+      }
+    } catch (e) { /* ignore */ }
+  });
   ws.on('close', () => clients.delete(ws));
   ws.on('error', () => clients.delete(ws));
 });

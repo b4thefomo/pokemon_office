@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { Character } from '../entities/Character';
 import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
-import { wsManager } from '../main';
+import { wsManager } from '../managers/wsInstance';
 import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
 import { CHARACTER_COLORS } from '../../../shared/types';
@@ -20,7 +20,9 @@ export class OfficeScene extends Phaser.Scene {
     this.pathfinder = new PathfindingManager();
     this.drawOffice();
     this.setupWebSocket();
-    this.add.text(400, 16, 'POKEMON OFFICE', { fontSize: '20px', color: '#7fdbff', fontStyle: 'bold' }).setOrigin(0.5, 0);
+    // Title with ramen logo
+    this.add.image(320, 26, 'ramen_logo').setDepth(10);
+    this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#7fdbff', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
   }
 
   private drawOffice(): void {
@@ -38,7 +40,7 @@ export class OfficeScene extends Phaser.Scene {
       for (let ty = 0; ty < table.height; ty++) {
         for (let tx = 0; tx < table.width; tx++) {
           const pos = gridToPixel(table.gridX + tx, table.gridY + ty);
-          this.add.image(pos.x, pos.y, 'tile_table').setDepth(1);
+          this.add.image(pos.x, pos.y, 'tile_desk').setDepth(1);
         }
       }
       // Table label
@@ -113,6 +115,9 @@ export class OfficeScene extends Phaser.Scene {
       this.characters.get(d.id)?.updateDevice(d);
       this.updateSidebar();
     });
+
+    // Request full state after handlers are registered (with small delay for WS to be ready)
+    setTimeout(() => wsManager.requestFullState(), 500);
   }
 
   private spawnAtDesk(d: Device): void {

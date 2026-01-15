@@ -1,12 +1,9 @@
 import Phaser from 'phaser';
 import { PreloadScene } from './scenes/PreloadScene';
 import { OfficeScene } from './scenes/OfficeScene';
-import { WebSocketManager } from './managers/WebSocketManager';
+import { wsManager, apiBase } from './managers/wsInstance';
 
-// Use current hostname for network access (smart TV, etc.)
-const wsHost = window.location.hostname || 'localhost';
-const apiBase = `http://${wsHost}:3001`;
-export const wsManager = new WebSocketManager(`ws://${wsHost}:3001/ws`);
+export { wsManager };
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.CANVAS, // Force Canvas for TV compatibility
