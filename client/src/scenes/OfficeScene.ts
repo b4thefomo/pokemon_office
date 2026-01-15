@@ -47,10 +47,11 @@ export class OfficeScene extends Phaser.Scene {
         .setOrigin(0.5).setDepth(2);
     }
 
-    // Draw chairs at each position
+    // Draw chairs at each position (top-side chairs face south, bottom-side face north)
     for (const chair of CHAIRS) {
       const pos = gridToPixel(chair.gridX, chair.gridY);
-      this.add.image(pos.x, pos.y, 'tile_chair').setDepth(1);
+      const chairSprite = chair.side === 'top' ? 'tile_chair_south' : 'tile_chair_north';
+      this.add.image(pos.x, pos.y, chairSprite).setDepth(1);
     }
 
     // Draw communal spaces

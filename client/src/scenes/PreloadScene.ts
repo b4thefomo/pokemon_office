@@ -7,6 +7,9 @@ export class PreloadScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('ramen_logo', '/ramen_club_logo.png');
+    this.load.image('tile_floor', 'src/assets/sprites/floor.png');
+    this.load.image('tile_chair_north', 'src/assets/sprites/chair_north_facing.png');
+    this.load.image('tile_chair_south', 'src/assets/sprites/chair_south_facing.png');
   }
 
   create(): void {
@@ -57,8 +60,6 @@ export class PreloadScene extends Phaser.Scene {
 
   private generateOfficeSprites(): void {
     const sprites = [
-      { key: 'tile_floor', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x3a3a5e); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); g.lineStyle(1, 0x4a4a6e); g.strokeRect(0, 0, TILE_SIZE, TILE_SIZE); } },
-      { key: 'tile_chair', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x5a5a7a); g.fillCircle(TILE_SIZE / 2, TILE_SIZE / 2, 10); g.lineStyle(2, 0x6a6a8a); g.strokeCircle(TILE_SIZE / 2, TILE_SIZE / 2, 10); } },
       { key: 'tile_wall', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x4a4a6a); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); g.lineStyle(2, 0x5a5a7a); g.strokeRect(0, 0, TILE_SIZE, TILE_SIZE); } },
       { key: 'tile_door', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x2ecc71); g.fillRect(4, 0, TILE_SIZE - 8, TILE_SIZE); g.fillStyle(0x27ae60); g.fillRect(6, 4, TILE_SIZE - 12, TILE_SIZE - 8); } },
       { key: 'tile_kitchen', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x3498db); g.fillRoundedRect(4, 4, TILE_SIZE - 8, TILE_SIZE - 8, 4); g.fillStyle(0x2980b9); g.fillRect(10, 10, 12, 12); } },
