@@ -120,12 +120,12 @@ export class PreloadScene extends Phaser.Scene {
     g.moveTo(26, 8); g.lineTo(30, 22);
     g.strokePath();
 
-    // Steam wisps
+    // Steam wisps (simple wavy lines)
     g.lineStyle(1, 0xffffff, 0.6);
     g.beginPath();
-    g.moveTo(12, 8); g.quadraticCurveTo(10, 5, 12, 2);
-    g.moveTo(16, 7); g.quadraticCurveTo(18, 4, 16, 1);
-    g.moveTo(20, 8); g.quadraticCurveTo(22, 5, 20, 2);
+    g.moveTo(12, 8); g.lineTo(11, 5); g.lineTo(12, 2);
+    g.moveTo(16, 7); g.lineTo(17, 4); g.lineTo(16, 1);
+    g.moveTo(20, 8); g.lineTo(21, 5); g.lineTo(20, 2);
     g.strokePath();
 
     g.generateTexture('ramen', 32, 32);
