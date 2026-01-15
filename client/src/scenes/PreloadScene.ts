@@ -1,6 +1,16 @@
 import Phaser from 'phaser';
-import { CHARACTER_COLORS } from '../../../shared/types';
 import { TILE_SIZE } from '../config/officeLayout';
+
+// All available character sprites (6 classes × 8 colors = 48 total)
+const CHARACTER_CLASSES = ['generic', 'bard', 'soldier', 'scout', 'devout', 'conjurer'];
+const CHARACTER_COLORS_LIST = ['red', 'blue', 'green', 'orange', 'purple', 'cyan', 'pink', 'yellow'];
+
+export const CHARACTER_SPRITES: string[] = [];
+for (const cls of CHARACTER_CLASSES) {
+  for (const color of CHARACTER_COLORS_LIST) {
+    CHARACTER_SPRITES.push(`char_${cls}_${color}`);
+  }
+}
 
 export class PreloadScene extends Phaser.Scene {
   constructor() { super({ key: 'PreloadScene' }); }
@@ -11,52 +21,18 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('tile_chair_north', 'src/assets/sprites/chair_north_facing.png');
     this.load.image('tile_chair_south', 'src/assets/sprites/chair_south_facing.png');
     this.load.image('tile_desk', '/single_table.png');
+
+    // Load all 48 character sprites
+    for (const sprite of CHARACTER_SPRITES) {
+      this.load.image(sprite, `src/assets/sprites/characters/${sprite}.png`);
+    }
   }
 
   create(): void {
-    this.generateCharacterSprites();
     this.generateOfficeSprites();
     this.generateTableSprite();
     this.generateRamenSprite();
     this.scene.start('OfficeScene');
-  }
-
-  private generateCharacterSprites(): void {
-    const size = TILE_SIZE - 4;
-    for (const char of CHARACTER_COLORS) {
-      const key = `char_${char.id}`;
-      const rt = this.add.renderTexture(0, 0, TILE_SIZE * 4, TILE_SIZE).setVisible(false);
-
-      for (let frame = 0; frame < 4; frame++) {
-        const g = this.make.graphics({ x: 0, y: 0 });
-        const bounce = frame % 2 === 0 ? 0 : -2;
-        g.fillStyle(char.color);
-        g.fillRoundedRect(2, 4 + bounce, size, size - 2, 4);
-        g.fillStyle(0xffffff, 0.2);
-        g.fillRoundedRect(4, 6 + bounce, size - 8, 8, 2);
-        g.fillStyle(0xffffff);
-        g.fillCircle(10, 14 + bounce, 5);
-        g.fillCircle(22, 14 + bounce, 5);
-        g.fillStyle(0x000000);
-        const pupil = frame < 2 ? -1 : 1;
-        g.fillCircle(10 + pupil, 14 + bounce, 2);
-        g.fillCircle(22 + pupil, 14 + bounce, 2);
-        g.fillStyle(char.color, 0.8);
-        const foot = frame % 2 === 0 ? 0 : 2;
-        g.fillEllipse(8, 28 + foot, 6, 4);
-        g.fillEllipse(24, 28 - foot, 6, 4);
-        rt.draw(g, frame * TILE_SIZE, 0);
-        g.destroy();
-      }
-
-      rt.saveTexture(key);
-      const tex = this.textures.get(key);
-      for (let i = 0; i < 4; i++) tex.add(i, 0, i * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE);
-      rt.destroy();
-
-      this.anims.create({ key: `${key}_walk`, frames: this.anims.generateFrameNumbers(key, { start: 0, end: 3 }), frameRate: 8, repeat: -1 });
-      this.anims.create({ key: `${key}_idle`, frames: this.anims.generateFrameNumbers(key, { start: 0, end: 1 }), frameRate: 2, repeat: -1 });
-    }
   }
 
   private generateOfficeSprites(): void {
