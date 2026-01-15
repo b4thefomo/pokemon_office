@@ -1,17 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <!-- Glass panel background - slightly tinted -->
-  <rect x="0" y="0" width="32" height="32" fill="#7ec8e3" opacity="0.55"/>
+  <!-- Glass panel - vibrant blue -->
+  <rect x="0" y="0" width="32" height="32" fill="#4fc3f7"/>
 
   <!-- Thin frame -->
-  <rect x="0" y="0" width="1.5" height="32" fill="#5a6a7a"/>
-  <rect x="30.5" y="0" width="1.5" height="32" fill="#5a6a7a"/>
-  <rect x="0" y="0" width="32" height="1.5" fill="#5a6a7a"/>
-  <rect x="0" y="30.5" width="32" height="1.5" fill="#5a6a7a"/>
+  <rect x="0" y="0" width="1.5" height="32" fill="#37474f"/>
+  <rect x="30.5" y="0" width="1.5" height="32" fill="#37474f"/>
+  <rect x="0" y="0" width="32" height="1.5" fill="#37474f"/>
+  <rect x="0" y="30.5" width="32" height="1.5" fill="#37474f"/>
 
-  <!-- Subtle cross pattern -->
-  <line x1="16" y1="1.5" x2="16" y2="30.5" stroke="#5a6a7a" stroke-width="1" opacity="0.4"/>
+  <!-- Center divider -->
+  <rect x="15.5" y="1.5" width="1" height="29" fill="#37474f" opacity="0.6"/>
 
-  <!-- Glass reflection -->
-  <line x1="5" y1="4" x2="5" y2="14" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
-  <line x1="22" y1="4" x2="22" y2="10" stroke="#ffffff" stroke-width="0.75" opacity="0.3"/>
+  <!-- Glass shine -->
+  <rect x="3" y="3" width="4" height="26" fill="#81d4fa" opacity="0.6"/>
+  <rect x="18" y="3" width="3" height="26" fill="#81d4fa" opacity="0.5"/>
+
+  <!-- Bright reflection -->
+  <line x1="5" y1="5" x2="5" y2="16" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="20" y1="5" x2="20" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
 </svg>

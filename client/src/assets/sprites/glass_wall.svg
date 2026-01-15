@@ -1,19 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <!-- Glass panel background -->
-  <rect x="0" y="0" width="32" height="32" fill="#87ceeb" opacity="0.6"/>
+  <!-- Glass panel background - vibrant blue -->
+  <rect x="0" y="0" width="32" height="32" fill="#4fc3f7"/>
 
   <!-- Metal frame - left -->
-  <rect x="0" y="0" width="2" height="32" fill="#556b7a"/>
-  <rect x="1" y="0" width="0.5" height="32" fill="#7a8b9a"/>
+  <rect x="0" y="0" width="2" height="32" fill="#37474f"/>
+  <rect x="1.5" y="0" width="0.5" height="32" fill="#546e7a"/>
 
   <!-- Metal frame - right -->
-  <rect x="30" y="0" width="2" height="32" fill="#556b7a"/>
-  <rect x="30.5" y="0" width="0.5" height="32" fill="#7a8b9a"/>
+  <rect x="30" y="0" width="2" height="32" fill="#37474f"/>
+  <rect x="30" y="0" width="0.5" height="32" fill="#546e7a"/>
 
   <!-- Center mullion -->
-  <rect x="15" y="0" width="2" height="32" fill="#556b7a"/>
+  <rect x="15" y="0" width="2" height="32" fill="#37474f"/>
 
-  <!-- Glass reflection lines -->
-  <line x1="6" y1="2" x2="6" y2="30" stroke="#ffffff" stroke-width="1" opacity="0.35"/>
-  <line x1="22" y1="2" x2="22" y2="30" stroke="#ffffff" stroke-width="1" opacity="0.25"/>
+  <!-- Glass shine/reflection -->
+  <rect x="3" y="2" width="4" height="28" fill="#81d4fa" opacity="0.6"/>
+  <rect x="19" y="2" width="3" height="28" fill="#81d4fa" opacity="0.5"/>
+
+  <!-- Bright highlight -->
+  <line x1="5" y1="4" x2="5" y2="14" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="21" y1="4" x2="21" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
 </svg>
