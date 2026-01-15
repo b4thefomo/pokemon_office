@@ -32,13 +32,32 @@ class NetworkScanner extends EventEmitter {
       const ipMatch = line.match(/\((\d+\.\d+\.\d+\.\d+)\)/);
       const macMatch = line.match(/at\s+([0-9a-fA-F:]+)/);
       if (ipMatch && macMatch) {
+        const ip = ipMatch[1];
         const mac = macMatch[1].toLowerCase();
-        if (mac !== 'ff:ff:ff:ff:ff:ff' && !line.includes('incomplete')) {
-          devices.push({ ip: ipMatch[1], mac });
-        }
+
+        // Skip invalid entries
+        if (mac === 'ff:ff:ff:ff:ff:ff' || line.includes('incomplete')) continue;
+
+        // Skip multicast IPs (224.x.x.x, 239.x.x.x)
+        if (ip.startsWith('224.') || ip.startsWith('239.')) continue;
+
+        // Skip randomized MAC addresses (phones use these)
+        // Randomized MACs have bit 1 of first octet set (x2, x6, xA, xE as second char)
+        if (this.isRandomizedMac(mac)) continue;
+
+        devices.push({ ip, mac });
       }
     }
     return devices;
+  }
+
+  // Phones typically use randomized/private MAC addresses
+  // These have the "locally administered" bit set (second hex char is 2, 6, A, or E)
+  private isRandomizedMac(mac: string): boolean {
+    const firstOctet = mac.split(':')[0];
+    if (firstOctet.length < 2) return false;
+    const secondChar = firstOctet[1].toLowerCase();
+    return ['2', '6', 'a', 'e'].includes(secondChar);
   }
 
   async processScannedDevices(scannedDevices: NetworkDevice[]): Promise<void> {
