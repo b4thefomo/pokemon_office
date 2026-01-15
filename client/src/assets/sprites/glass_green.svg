@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="32" viewBox="0 0 12 32">
+  <!-- Thin green glass panel -->
+  <rect x="0" y="0" width="12" height="32" fill="#4ade80"/>
+
+  <!-- Frame edges -->
+  <rect x="0" y="0" width="1" height="32" fill="#166534"/>
+  <rect x="11" y="0" width="1" height="32" fill="#166534"/>
+
+  <!-- Glass shine -->
+  <rect x="3" y="2" width="3" height="28" fill="#86efac" opacity="0.5"/>
+
+  <!-- Reflection -->
+  <line x1="4" y1="4" x2="4" y2="14" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+</svg>

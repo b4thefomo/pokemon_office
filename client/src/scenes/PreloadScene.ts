@@ -33,6 +33,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('tv', 'src/assets/sprites/tv.png');
     this.load.image('plant', 'src/assets/sprites/plant.png');
     this.load.image('glass_divider', 'src/assets/sprites/glass_divider.png');
+    this.load.image('glass_green', 'src/assets/sprites/glass_green.png');
 
     // Load all 48 character sprites
     for (const sprite of CHARACTER_SPRITES) {
