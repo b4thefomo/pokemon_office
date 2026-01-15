@@ -25,11 +25,50 @@ export class OfficeScene extends Phaser.Scene {
     this.drawOffice();
     this.setupWebSocket();
     this.activityManager.start();
-    // Title with ramen logo - vertically aligned with pulse animation
+    // Title with ramen logo - drawn with graphics for crisp scaling
     const logoX = 400;
     const logoY = 24;
-    const logo = this.add.image(logoX - 60, logoY, 'ramen_logo').setDepth(10).setOrigin(0.5, 0.5);
-    const title = this.add.text(logoX + 10, logoY, 'RAMEN SPACE', {
+
+    // Create ramen bowl graphic
+    const bowl = this.add.graphics();
+    bowl.setPosition(logoX - 70, logoY);
+    // Bowl (cream ceramic)
+    bowl.fillStyle(0xf5f5dc);
+    bowl.fillEllipse(0, 6, 28, 14);
+    bowl.fillStyle(0xffe4c4);
+    bowl.fillEllipse(0, 2, 26, 12);
+    // Broth (golden)
+    bowl.fillStyle(0xd4a056);
+    bowl.fillEllipse(0, 2, 22, 9);
+    // Noodles (yellow wavy)
+    bowl.lineStyle(2, 0xf4d03f);
+    bowl.beginPath();
+    bowl.moveTo(-8, 0); bowl.lineTo(-6, 3); bowl.lineTo(-8, 6);
+    bowl.moveTo(-4, -1); bowl.lineTo(-2, 2); bowl.lineTo(-4, 5);
+    bowl.moveTo(0, -2); bowl.lineTo(2, 1); bowl.lineTo(0, 4);
+    bowl.moveTo(4, -1); bowl.lineTo(6, 2); bowl.lineTo(4, 5);
+    bowl.strokePath();
+    // Egg (white + orange yolk)
+    bowl.fillStyle(0xffffff);
+    bowl.fillEllipse(6, 0, 6, 4);
+    bowl.fillStyle(0xffa500);
+    bowl.fillCircle(6, 0, 2);
+    // Narutomaki (pink fish cake)
+    bowl.fillStyle(0xffc0cb);
+    bowl.fillCircle(-6, 1, 3);
+    bowl.lineStyle(1, 0xff69b4);
+    bowl.beginPath();
+    bowl.arc(-6, 1, 1.5, 0, Math.PI * 1.5);
+    bowl.strokePath();
+    // Chopsticks
+    bowl.lineStyle(2, 0x8b4513);
+    bowl.beginPath();
+    bowl.moveTo(8, -8); bowl.lineTo(12, 8);
+    bowl.moveTo(10, -8); bowl.lineTo(14, 6);
+    bowl.strokePath();
+    bowl.setDepth(10);
+
+    const title = this.add.text(logoX, logoY, 'RAMEN SPACE', {
       fontSize: '20px',
       color: '#57FDD0',
       fontStyle: 'bold'
@@ -37,7 +76,7 @@ export class OfficeScene extends Phaser.Scene {
 
     // Pulse animation for logo and title
     this.tweens.add({
-      targets: [logo, title],
+      targets: [bowl, title],
       scale: { from: 1, to: 1.05 },
       alpha: { from: 1, to: 0.85 },
       duration: 1000,
