@@ -61,7 +61,7 @@ export class PreloadScene extends Phaser.Scene {
 
   private generateOfficeSprites(): void {
     const sprites = [
-      { key: 'tile_wall', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x4a4a6a); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); g.lineStyle(2, 0x5a5a7a); g.strokeRect(0, 0, TILE_SIZE, TILE_SIZE); } },
+      { key: 'tile_wall', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x000000); g.fillRect(0, 0, TILE_SIZE, TILE_SIZE); } },
       { key: 'tile_door', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x2ecc71); g.fillRect(4, 0, TILE_SIZE - 8, TILE_SIZE); g.fillStyle(0x27ae60); g.fillRect(6, 4, TILE_SIZE - 12, TILE_SIZE - 8); } },
       { key: 'tile_kitchen', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x3498db); g.fillRoundedRect(4, 4, TILE_SIZE - 8, TILE_SIZE - 8, 4); g.fillStyle(0x2980b9); g.fillRect(10, 10, 12, 12); } },
       { key: 'tile_lounge', fn: (g: Phaser.GameObjects.Graphics) => { g.fillStyle(0x9b59b6); g.fillRoundedRect(4, 4, TILE_SIZE - 8, TILE_SIZE - 8, 4); } },
