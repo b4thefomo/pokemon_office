@@ -115,13 +115,11 @@ export class OfficeScene extends Phaser.Scene {
         }
       }
 
-      // Side divider (glass wall between rooms)
+      // Side divider (single glass panel between rooms at front wall level)
       if (i < MEETING_ROOMS.length - 1) {
         const dividerX = room.gridX + room.width;
-        for (let y = room.gridY; y < room.gridY + room.height; y++) {
-          const pos = gridToPixel(dividerX, y);
-          this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
-        }
+        const pos = gridToPixel(dividerX, frontWallY);
+        this.add.image(pos.x, pos.y, 'meeting_glass').setDepth(1);
       }
 
       // Room floor (grass inside)
