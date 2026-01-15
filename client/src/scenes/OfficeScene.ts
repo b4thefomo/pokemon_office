@@ -25,32 +25,47 @@ export class OfficeScene extends Phaser.Scene {
     this.drawOffice();
     this.setupWebSocket();
     this.activityManager.start();
-    // Header - logo and title on top black bar
-    const headerY = TILE_SIZE / 2;
+    // Navbar with logo
+    const navHeight = TILE_SIZE;
+    const navY = navHeight / 2;
 
-    // Ramen logo
-    const logo = this.add.image(24, headerY, 'ramen_logo').setDepth(10).setOrigin(0.5, 0.5);
+    // Navbar background - covers the top row
+    const navBg = this.add.rectangle(
+      MAP_WIDTH * TILE_SIZE / 2, navY,
+      MAP_WIDTH * TILE_SIZE, navHeight,
+      0x0F1235
+    ).setDepth(5);
 
-    // Title text
-    const title = this.add.text(50, headerY, 'RAMEN SPACE', {
-      fontSize: '16px',
+    // Navbar bottom border
+    const navBorder = this.add.rectangle(
+      MAP_WIDTH * TILE_SIZE / 2, navHeight - 1,
+      MAP_WIDTH * TILE_SIZE, 2,
+      0x57FDD0, 0.5
+    ).setDepth(6);
+
+    // Ramen logo - larger and prominent
+    const logo = this.add.image(80, navY, 'ramen_logo').setDepth(10).setScale(0.9);
+
+    // Title text next to logo
+    const title = this.add.text(120, navY, 'RAMEN SPACE', {
+      fontSize: '18px',
       color: '#57FDD0',
       fontStyle: 'bold'
     }).setOrigin(0, 0.5).setDepth(10);
 
-    // Pulse animation for logo and title
+    // Pulse animation
     this.tweens.add({
       targets: [logo, title],
-      alpha: { from: 1, to: 0.7 },
-      duration: 1200,
+      alpha: { from: 1, to: 0.75 },
+      duration: 1500,
       yoyo: true,
       repeat: -1,
       ease: 'Sine.easeInOut'
     });
 
-    // Digital clock on right side
-    this.clockText = this.add.text(MAP_WIDTH * TILE_SIZE - 10, headerY, '', {
-      fontSize: '12px',
+    // Clock on right
+    this.clockText = this.add.text(MAP_WIDTH * TILE_SIZE - 50, navY, '', {
+      fontSize: '14px',
       color: '#57FDD0',
       fontStyle: 'bold'
     }).setOrigin(1, 0.5).setDepth(10);
