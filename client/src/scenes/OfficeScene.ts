@@ -20,7 +20,9 @@ export class OfficeScene extends Phaser.Scene {
     this.pathfinder = new PathfindingManager();
     this.drawOffice();
     this.setupWebSocket();
-    this.add.text(400, 16, 'POKEMON OFFICE', { fontSize: '20px', color: '#7fdbff', fontStyle: 'bold' }).setOrigin(0.5, 0);
+    // Title with ramen logo
+    this.add.image(320, 26, 'ramen_logo').setDepth(10);
+    this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#7fdbff', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
   }
 
   private drawOffice(): void {
