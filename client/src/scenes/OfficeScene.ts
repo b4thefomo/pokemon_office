@@ -46,7 +46,14 @@ export class OfficeScene extends Phaser.Scene {
     for (let y = 0; y < MAP_HEIGHT; y++) {
       for (let x = 0; x < MAP_WIDTH; x++) {
         const pos = gridToPixel(x, y);
-        const tile = (x === 0 || x === MAP_WIDTH - 1 || y === 0) ? 'tile_wall' : 'tile_floor';
+        let tile: string;
+        if (x === 0) {
+          tile = 'white_brick';  // Left wall is white brick
+        } else if (x === MAP_WIDTH - 1 || y === 0) {
+          tile = 'tile_wall';    // Other walls are black
+        } else {
+          tile = 'tile_floor';
+        }
         this.add.image(pos.x, pos.y, tile).setDepth(0);
       }
     }
@@ -108,9 +115,9 @@ export class OfficeScene extends Phaser.Scene {
         this.add.image(pos.x, pos.y, 'tile_floor').setDepth(0);
       }
     }
-    // Meeting room label
-    const meetingLabelPos = gridToPixel(MEETING_ROOM.gridX + MEETING_ROOM.width / 2, MEETING_ROOM.gridY);
-    this.add.text(meetingLabelPos.x, meetingLabelPos.y, MEETING_ROOM.name, { fontSize: '10px', color: '#7fdbff' })
+    // Meeting room label (below the glass wall)
+    const meetingLabelPos = gridToPixel(MEETING_ROOM.gridX + MEETING_ROOM.width / 2, MEETING_ROOM.gridY + MEETING_ROOM.height);
+    this.add.text(meetingLabelPos.x, meetingLabelPos.y - 8, MEETING_ROOM.name, { fontSize: '10px', color: '#7fdbff' })
       .setOrigin(0.5).setDepth(2);
 
     // Draw communal spaces
