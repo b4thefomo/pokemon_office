@@ -52,7 +52,11 @@ export class OfficeScene extends Phaser.Scene {
     wsManager.onFullState((p: FullStatePayload) => {
       this.deviceList = p.devices;
       this.deskManager.syncWithDevices(p.devices);
-      for (const d of p.devices) if (d.online && d.deskId !== null) this.spawnAtDesk(d);
+      // Stagger character entries on refresh for a nice effect
+      const onlineDevices = p.devices.filter(d => d.online && d.deskId !== null);
+      onlineDevices.forEach((d, i) => {
+        setTimeout(() => this.spawnWalking(d), i * 300); // 300ms stagger
+      });
       this.updateSidebar();
     });
 
