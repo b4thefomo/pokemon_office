@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="32" viewBox="0 0 8 32">
+  <!-- Thin glass divider panel -->
+  <rect x="0" y="0" width="8" height="32" fill="#4fc3f7"/>
+
+  <!-- Frame edges -->
+  <rect x="0" y="0" width="1" height="32" fill="#37474f"/>
+  <rect x="7" y="0" width="1" height="32" fill="#37474f"/>
+
+  <!-- Glass shine -->
+  <rect x="2" y="2" width="2" height="28" fill="#81d4fa" opacity="0.5"/>
+
+  <!-- Reflection -->
+  <line x1="3" y1="4" x2="3" y2="14" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+</svg>
