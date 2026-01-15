@@ -38,7 +38,7 @@ export class OfficeScene extends Phaser.Scene {
       for (let ty = 0; ty < table.height; ty++) {
         for (let tx = 0; tx < table.width; tx++) {
           const pos = gridToPixel(table.gridX + tx, table.gridY + ty);
-          this.add.image(pos.x, pos.y, 'tile_table').setDepth(1);
+          this.add.image(pos.x, pos.y, 'tile_desk').setDepth(1);
         }
       }
       // Table label

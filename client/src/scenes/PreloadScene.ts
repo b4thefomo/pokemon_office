@@ -7,6 +7,7 @@ export class PreloadScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('ramen_logo', '/ramen_club_logo.png');
+    this.load.image('tile_desk', '/single_table.png');
   }
 
   create(): void {
