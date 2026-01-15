@@ -12,6 +12,7 @@ export class OfficeScene extends Phaser.Scene {
   private pathfinder!: PathfindingManager;
   private characters: Map<string, Character> = new Map();
   private deviceList: Device[] = [];
+  private clockText!: Phaser.GameObjects.Text;
 
   constructor() { super({ key: 'OfficeScene' }); }
 
@@ -22,7 +23,18 @@ export class OfficeScene extends Phaser.Scene {
     this.setupWebSocket();
     // Title with ramen logo
     this.add.image(320, 26, 'ramen_logo').setDepth(10);
-    this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#7fdbff', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
+    this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#57FDD0', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
+
+    // Digital clock in top-right corner
+    this.clockText = this.add.text(775, 16, '', {
+      fontSize: '16px',
+      color: '#57FDD0',
+      fontStyle: 'bold',
+      backgroundColor: '#000000aa',
+      padding: { x: 6, y: 2 }
+    }).setOrigin(1, 0).setDepth(10);
+    this.updateClock();
+    this.time.addEvent({ delay: 1000, callback: this.updateClock, callbackScope: this, loop: true });
   }
 
   private drawOffice(): void {
@@ -211,5 +223,11 @@ export class OfficeScene extends Phaser.Scene {
 
   getLastConnectedDevice(): Device | undefined {
     return this.deviceList.filter((d) => d.online).pop();
+  }
+
+  private updateClock(): void {
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    this.clockText.setText(time);
   }
 }
