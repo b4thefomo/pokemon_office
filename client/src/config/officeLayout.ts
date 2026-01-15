@@ -119,8 +119,8 @@ export const COMMUNAL_SPACES = [
   { id: 'lounge', gridX: 11, gridY: 19, name: 'Lounge' },
 ];
 
-// Entry point - bottom right
-export const ENTRY_POINT = { gridX: 22, gridY: 17 };
+// Entry point - right side, between Table 4 and Table 5
+export const ENTRY_POINT = { gridX: 22, gridY: 12 };
 
 // Activity zones - destinations for autonomous character movement
 export interface ActivityZone {
