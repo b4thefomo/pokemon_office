@@ -87,6 +87,11 @@ class NetworkScanner extends EventEmitter {
 
   start(): void {
     console.log(`Starting network scanner (interval: ${config.network.scanInterval}ms)`);
+    // Initialize lastKnownDevices with currently online devices from storage
+    for (const device of deviceRegistry.getOnlineDevices()) {
+      this.lastKnownDevices.add(device.mac);
+    }
+    console.log(`Initialized with ${this.lastKnownDevices.size} known devices`);
     this.runScan();
     this.scanInterval = setInterval(() => this.runScan(), config.network.scanInterval);
   }

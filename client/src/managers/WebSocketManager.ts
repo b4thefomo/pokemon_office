@@ -40,4 +40,10 @@ export class WebSocketManager {
   onDeviceConnected(h: (p: DeviceEventPayload) => void) { this.on('device:connected', h as Handler); }
   onDeviceDisconnected(h: (p: DeviceEventPayload) => void) { this.on('device:disconnected', h as Handler); }
   onDeviceUpdated(h: (p: DeviceEventPayload) => void) { this.on('device:updated', h as Handler); }
+
+  requestFullState(): void {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ type: 'request:state' }));
+    }
+  }
 }

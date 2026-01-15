@@ -112,6 +112,9 @@ export class OfficeScene extends Phaser.Scene {
       this.characters.get(d.id)?.updateDevice(d);
       this.updateSidebar();
     });
+
+    // Request full state after handlers are registered (with small delay for WS to be ready)
+    setTimeout(() => wsManager.requestFullState(), 500);
   }
 
   private spawnAtDesk(d: Device): void {
