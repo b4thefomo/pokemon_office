@@ -274,10 +274,12 @@ export function generateCollisionMap(): number[][] {
         map[frontWallY][x] = 1;
       }
     }
-    // Side divider (single panel at front wall level)
+    // Side divider (full height glass wall between rooms)
     const rightEdgeX = room.gridX + room.width;
     if (rightEdgeX < MAP_WIDTH - 1) {
-      map[frontWallY][rightEdgeX] = 1;
+      for (let y = room.gridY; y < room.gridY + room.height; y++) {
+        map[y][rightEdgeX] = 1;
+      }
     }
   }
   return map;
