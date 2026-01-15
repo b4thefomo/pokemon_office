@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { Character } from '../entities/Character';
 import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
-import { wsManager } from '../main';
+import { wsManager } from '../managers/wsInstance';
 import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
 import { CHARACTER_COLORS } from '../../../shared/types';
