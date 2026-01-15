@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { wsManager, wsHost } from './managers/wsInstance';
+import { wsManager, wsHost, apiBase } from './managers/wsInstance';
 
 // Debug logging
 const consoleLog = document.getElementById('console-log');
@@ -53,9 +53,47 @@ setInterval(() => {
 }, 1000);
 
 addLog(`TV Debug Mode Started - Host: ${wsHost}`);
+addLog(`WebSocket URL: ${wsManager.getUrl()}`);
+addLog(`API Base: ${apiBase}`);
+
+// Test HTTP connectivity before starting game
+async function testConnectivity(): Promise<boolean> {
+  const httpStatusEl = document.getElementById('http-status');
+  try {
+    addLog('Testing HTTP connectivity...');
+    const response = await fetch(`${apiBase}/api/devices`, {
+      method: 'GET',
+      mode: 'cors',
+    });
+    if (response.ok) {
+      addLog('HTTP connectivity OK');
+      if (httpStatusEl) {
+        httpStatusEl.textContent = 'OK';
+        httpStatusEl.className = 'stat-value';
+      }
+      return true;
+    } else {
+      addLog(`HTTP test failed: ${response.status} ${response.statusText}`, 'warn');
+      if (httpStatusEl) {
+        httpStatusEl.textContent = `Error ${response.status}`;
+        httpStatusEl.className = 'stat-value error';
+      }
+      return false;
+    }
+  } catch (e) {
+    addLog(`HTTP connectivity failed: ${e}`, 'error');
+    if (httpStatusEl) {
+      httpStatusEl.textContent = 'Failed';
+      httpStatusEl.className = 'stat-value error';
+    }
+    return false;
+  }
+}
 
 // Dynamically import scenes to avoid circular dependency
 async function startGame() {
+  // Test connectivity first
+  await testConnectivity();
   const { PreloadScene } = await import('./scenes/PreloadScene');
   const { OfficeScene } = await import('./scenes/OfficeScene');
 
