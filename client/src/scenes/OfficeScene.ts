@@ -92,6 +92,27 @@ export class OfficeScene extends Phaser.Scene {
     }).setOrigin(1, 0.5).setDepth(10);
     this.updateClock();
     this.time.addEvent({ delay: 1000, callback: this.updateClock, callbackScope: this, loop: true });
+
+    // Collapse icon in bottom right corner
+    const collapseX = MAP_WIDTH * TILE_SIZE - 20;
+    const collapseY = MAP_HEIGHT * TILE_SIZE - 20;
+    const collapseIcon = this.add.graphics();
+    collapseIcon.setPosition(collapseX, collapseY);
+    // Background circle
+    collapseIcon.fillStyle(0x1a1a2e, 0.9);
+    collapseIcon.fillCircle(0, 0, 14);
+    collapseIcon.lineStyle(2, 0x57FDD0, 0.8);
+    collapseIcon.strokeCircle(0, 0, 14);
+    // Double chevron (>>)
+    collapseIcon.lineStyle(2, 0x57FDD0);
+    collapseIcon.beginPath();
+    collapseIcon.moveTo(-6, -5); collapseIcon.lineTo(-1, 0); collapseIcon.lineTo(-6, 5);
+    collapseIcon.moveTo(1, -5); collapseIcon.lineTo(6, 0); collapseIcon.lineTo(1, 5);
+    collapseIcon.strokePath();
+    collapseIcon.setDepth(10);
+    collapseIcon.setInteractive(new Phaser.Geom.Circle(0, 0, 14), Phaser.Geom.Circle.Contains);
+    collapseIcon.on('pointerover', () => collapseIcon.setAlpha(0.7));
+    collapseIcon.on('pointerout', () => collapseIcon.setAlpha(1));
   }
 
   private drawOffice(): void {
