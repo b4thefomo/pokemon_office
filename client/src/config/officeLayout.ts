@@ -122,6 +122,85 @@ export const COMMUNAL_SPACES = [
 // Entry point - bottom right
 export const ENTRY_POINT = { gridX: 22, gridY: 17 };
 
+// Activity zones - destinations for autonomous character movement
+export interface ActivityZone {
+  id: string;
+  name: string;
+  waypoints: { x: number; y: number }[];  // Standing spots around the activity
+  capacity: number;                        // Max characters at once
+  durationRange: [number, number];         // [minMs, maxMs] time spent at activity
+  weight: number;                          // Probability weight for selection
+}
+
+export const ACTIVITY_ZONES: ActivityZone[] = [
+  {
+    id: 'pool_table',
+    name: 'Pool Table',
+    waypoints: [
+      { x: 3, y: 13 }, { x: 3, y: 15 },   // Left side
+      { x: 7, y: 13 }, { x: 7, y: 15 },   // Right side
+      { x: 5, y: 12 }, { x: 5, y: 17 },   // Top/bottom
+    ],
+    capacity: 4,
+    durationRange: [15000, 45000],  // 15-45 seconds
+    weight: 3,
+  },
+  {
+    id: 'kitchen',
+    name: 'Kitchen',
+    waypoints: [
+      { x: 2, y: 19 }, { x: 4, y: 19 },
+      { x: 3, y: 18 }, { x: 2, y: 18 },
+    ],
+    capacity: 3,
+    durationRange: [10000, 30000],  // 10-30 seconds (coffee break)
+    weight: 4,  // Most popular
+  },
+  {
+    id: 'lounge',
+    name: 'Lounge',
+    waypoints: [
+      { x: 10, y: 19 }, { x: 12, y: 19 },
+      { x: 11, y: 18 }, { x: 10, y: 18 },
+    ],
+    capacity: 3,
+    durationRange: [20000, 60000],  // 20-60 seconds (longer break)
+    weight: 2,
+  },
+  {
+    id: 'meeting_room',
+    name: 'Meeting Room',
+    waypoints: [
+      { x: 5, y: 1 }, { x: 6, y: 1 }, { x: 7, y: 1 },     // Left side inside
+      { x: 17, y: 1 }, { x: 18, y: 1 }, { x: 19, y: 1 },  // Right side inside
+    ],
+    capacity: 6,
+    durationRange: [30000, 90000],  // 30-90 seconds (meetings take longer)
+    weight: 1,  // Less frequent
+  },
+  {
+    id: 'table_5_social',
+    name: 'Table 5 Area',
+    waypoints: [
+      { x: 15, y: 14 }, { x: 15, y: 15 },  // Near left side
+      { x: 20, y: 14 }, { x: 20, y: 15 },  // Near right side
+    ],
+    capacity: 4,
+    durationRange: [15000, 40000],  // 15-40 seconds
+    weight: 2,
+  },
+];
+
+// Activity system configuration
+export const ACTIVITY_CONFIG = {
+  tickIntervalMs: 12000,        // Check every 12 seconds
+  minCooldownMs: 120000,        // 2 min minimum between activities
+  maxCooldownMs: 300000,        // 5 min maximum between activities
+  activityProbability: 0.15,    // 15% chance per tick when eligible
+  maxSimultaneousStarts: 2,     // Prevent mass exodus
+  minCharactersForActivity: 3,  // Need 3+ people for activities to start
+};
+
 export function generateCollisionMap(): number[][] {
   const map: number[][] = [];
   for (let y = 0; y < MAP_HEIGHT; y++) {

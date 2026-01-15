@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { Character } from '../entities/Character';
 import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
+import { ActivityManager } from '../managers/ActivityManager';
 import { wsManager } from '../managers/wsInstance';
 import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, POOL_TABLE, MEETING_ROOM, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
@@ -10,6 +11,7 @@ import { CHARACTER_COLORS } from '../../../shared/types';
 export class OfficeScene extends Phaser.Scene {
   private deskManager!: DeskManager;
   private pathfinder!: PathfindingManager;
+  private activityManager!: ActivityManager;
   private characters: Map<string, Character> = new Map();
   private deviceList: Device[] = [];
   private clockText!: Phaser.GameObjects.Text;
@@ -19,8 +21,10 @@ export class OfficeScene extends Phaser.Scene {
   create(): void {
     this.deskManager = new DeskManager();
     this.pathfinder = new PathfindingManager();
+    this.activityManager = new ActivityManager(this, this.characters);
     this.drawOffice();
     this.setupWebSocket();
+    this.activityManager.start();
     // Title with ramen logo
     this.add.image(320, 26, 'ramen_logo').setDepth(10);
     this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#57FDD0', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
@@ -155,6 +159,7 @@ export class OfficeScene extends Phaser.Scene {
       if (idx >= 0) this.deviceList[idx] = d;
       const char = this.characters.get(d.id);
       if (char) {
+        this.activityManager.onCharacterRemoved(d.id);  // Cleanup from activity manager
         if (d.deskId !== null) this.deskManager.releaseDesk(d.deskId);
         char.leave(ENTRY_POINT.gridX, ENTRY_POINT.gridY).then(() => this.characters.delete(d.id));
       }
@@ -187,7 +192,9 @@ export class OfficeScene extends Phaser.Scene {
     if (!pos) return;
     const door = gridToPixel(ENTRY_POINT.gridX, ENTRY_POINT.gridY);
     const char = new Character(this, d, this.pathfinder, door.x, door.y);
+    char.setAssignedDesk(pos.gridX, pos.gridY);  // Set desk for activity system
     this.characters.set(d.id, char);
+    this.activityManager.onCharacterAdded(d.id);  // Register with activity manager
     char.walkToDesk(pos.gridX, pos.gridY);
   }
 
