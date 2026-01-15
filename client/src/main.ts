@@ -9,7 +9,7 @@ const apiBase = `http://${wsHost}:3001`;
 export const wsManager = new WebSocketManager(`ws://${wsHost}:3001/ws`);
 
 const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS, // Force Canvas for TV compatibility
   width: 800,
   height: 608,
   parent: 'game',
@@ -19,8 +19,6 @@ const config: Phaser.Types.Core.GameConfig = {
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 800,
-    height: 608,
   },
 };
 

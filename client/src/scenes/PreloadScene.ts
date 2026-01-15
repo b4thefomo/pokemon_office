@@ -6,7 +6,7 @@ export class PreloadScene extends Phaser.Scene {
   constructor() { super({ key: 'PreloadScene' }); }
 
   preload(): void {
-    this.load.image('ramen_logo', 'src/assets/sprites/ramen_club_logo.png');
+    this.load.image('ramen_logo', '/ramen_club_logo.png');
   }
 
   create(): void {
