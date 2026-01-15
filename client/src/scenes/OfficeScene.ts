@@ -154,9 +154,10 @@ export class OfficeScene extends Phaser.Scene {
     this.add.image(doorPos.x, doorPos.y, 'glass_door').setDepth(1);
     this.add.text(doorPos.x, doorPos.y + 20, 'ENTRANCE', { fontSize: '8px', color: '#57FDD0' }).setOrigin(0.5, 0).setDepth(2);
 
-    // Draw TV at end of Table 5 (conference area)
-    const tvPos = gridToPixel(18, 17);
-    this.add.image(tvPos.x, tvPos.y, 'tv').setDepth(1);
+    // Draw TV at end of Table 5 (conference area) - centered on 2-tile wide table
+    const tvX = 17 * TILE_SIZE + TILE_SIZE;  // Center of Table 5 (spans tiles 17-18)
+    const tvY = 17 * TILE_SIZE + TILE_SIZE / 2;
+    this.add.image(tvX, tvY, 'tv').setDepth(1);
 
     // Draw plants along right border
     const plantPositions = [4, 7, 15, 18];
