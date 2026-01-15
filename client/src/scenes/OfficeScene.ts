@@ -3,7 +3,7 @@ import { Character } from '../entities/Character';
 import { DeskManager } from '../managers/DeskManager';
 import { PathfindingManager } from '../managers/PathfindingManager';
 import { wsManager } from '../main';
-import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, DESKS, COMMUNAL_SPACES, ENTRY_POINT, gridToPixel } from '../config/officeLayout';
+import { TILE_SIZE, MAP_WIDTH, MAP_HEIGHT, TABLES, CHAIRS, COMMUNAL_SPACES, ENTRY_POINT, gridToPixel } from '../config/officeLayout';
 import type { Device, FullStatePayload, DeviceEventPayload } from '../../../shared/types';
 import { CHARACTER_COLORS } from '../../../shared/types';
 
@@ -24,6 +24,7 @@ export class OfficeScene extends Phaser.Scene {
   }
 
   private drawOffice(): void {
+    // Draw floor tiles
     for (let y = 0; y < MAP_HEIGHT; y++) {
       for (let x = 0; x < MAP_WIDTH; x++) {
         const pos = gridToPixel(x, y);
@@ -31,13 +32,28 @@ export class OfficeScene extends Phaser.Scene {
         this.add.image(pos.x, pos.y, tile).setDepth(0);
       }
     }
-    for (const desk of DESKS) {
-      const deskPos = gridToPixel(desk.gridX, desk.gridY - 1);
-      const chairPos = gridToPixel(desk.gridX, desk.gridY);
-      this.add.image(deskPos.x, deskPos.y, 'tile_desk').setDepth(1);
-      this.add.image(chairPos.x, chairPos.y, 'tile_chair').setDepth(1);
-      this.add.text(deskPos.x, deskPos.y - 12, `${desk.id}`, { fontSize: '8px', color: '#888' }).setOrigin(0.5).setDepth(2);
+
+    // Draw tables
+    for (const table of TABLES) {
+      for (let ty = 0; ty < table.height; ty++) {
+        for (let tx = 0; tx < table.width; tx++) {
+          const pos = gridToPixel(table.gridX + tx, table.gridY + ty);
+          this.add.image(pos.x, pos.y, 'tile_table').setDepth(1);
+        }
+      }
+      // Table label
+      const labelPos = gridToPixel(table.gridX + table.width / 2 - 0.5, table.gridY + table.height / 2 - 0.5);
+      this.add.text(labelPos.x, labelPos.y, table.name, { fontSize: '10px', color: '#fff' })
+        .setOrigin(0.5).setDepth(2);
     }
+
+    // Draw chairs at each position
+    for (const chair of CHAIRS) {
+      const pos = gridToPixel(chair.gridX, chair.gridY);
+      this.add.image(pos.x, pos.y, 'tile_chair').setDepth(1);
+    }
+
+    // Draw communal spaces
     for (const space of COMMUNAL_SPACES) {
       const pos = gridToPixel(space.gridX, space.gridY);
       this.add.image(pos.x, pos.y, space.id === 'kitchen' ? 'tile_kitchen' : 'tile_lounge').setDepth(1);
@@ -47,6 +63,8 @@ export class OfficeScene extends Phaser.Scene {
         this.add.image(pos.x + 32, pos.y, 'ramen_logo').setDepth(2);
       }
     }
+
+    // Draw door
     const doorPos = gridToPixel(ENTRY_POINT.gridX, ENTRY_POINT.gridY);
     this.add.image(doorPos.x, doorPos.y, 'tile_door').setDepth(1);
     this.add.text(doorPos.x, doorPos.y + 20, 'ENTRANCE', { fontSize: '8px', color: '#2ecc71' }).setOrigin(0.5, 0).setDepth(2);
@@ -126,10 +144,13 @@ export class OfficeScene extends Phaser.Scene {
 
   private updateSidebar(): void {
     const list = document.getElementById('device-list');
+    const countBadge = document.getElementById('device-count');
     if (!list) return;
     list.innerHTML = '';
     // Only show online devices
     const onlineDevices = this.deviceList.filter(d => d.online);
+    // Update count badge
+    if (countBadge) countBadge.textContent = String(onlineDevices.length);
     for (const d of onlineDevices) {
       const li = document.createElement('li');
       const color = CHARACTER_COLORS[d.characterId];

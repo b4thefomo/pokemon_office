@@ -6,32 +6,79 @@
   <title>Pokemon Office</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Courier New', monospace; }
-    #game-container { display: flex; gap: 20px; }
-    #game { border: 4px solid #4a4a6a; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-    #sidebar { background: #2a2a4e; border-radius: 8px; padding: 16px; width: 250px; color: #fff; }
-    #sidebar h2 { margin-bottom: 16px; color: #7fdbff; font-size: 16px; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body { background: #1a1a2e; font-family: 'Courier New', monospace; }
+
+    #game-container { width: 100%; height: 100%; position: relative; }
+    #game { width: 100%; height: 100%; }
+    #game canvas { width: 100% !important; height: 100% !important; }
+
+    /* Collapsible Sidebar */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 280px;
+      height: 100%;
+      background: #2a2a4eee;
+      backdrop-filter: blur(10px);
+      padding: 16px;
+      color: #fff;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    #sidebar.collapsed { transform: translateX(280px); }
+
+    #sidebar-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      background: #4a4a8a;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 101;
+      transition: right 0.3s ease, background 0.2s;
+    }
+
+    #sidebar-toggle:hover { background: #5a5a9a; }
+    #sidebar.collapsed ~ #sidebar-toggle { right: 16px; }
+    #sidebar:not(.collapsed) ~ #sidebar-toggle { right: 296px; }
+
+    #sidebar h2 { margin-bottom: 16px; color: #7fdbff; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+    #device-count { font-size: 12px; background: #4a4a8a; padding: 2px 8px; border-radius: 10px; }
     #device-list { list-style: none; }
     #device-list li { padding: 8px; margin-bottom: 8px; background: #3a3a5e; border-radius: 4px; font-size: 12px; }
-    #device-list li.offline { opacity: 0.5; }
     .device-color { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 8px; vertical-align: middle; }
+
     #controls { margin-top: 16px; padding-top: 16px; border-top: 1px solid #4a4a6a; }
-    #controls button { width: 100%; padding: 8px; margin-bottom: 8px; background: #4a4a8a; border: none; border-radius: 4px; color: #fff; cursor: pointer; font-family: inherit; }
+    #controls button { width: 100%; padding: 10px; margin-bottom: 8px; background: #4a4a8a; border: none; border-radius: 4px; color: #fff; cursor: pointer; font-family: inherit; font-size: 12px; }
     #controls button:hover { background: #5a5a9a; }
   </style>
 </head>
 <body>
   <div id="game-container">
     <div id="game"></div>
-    <div id="sidebar">
-      <h2>OFFICE OCCUPANTS</h2>
-      <ul id="device-list"></ul>
-      <div id="controls">
-        <button id="btn-simulate-connect">+ Simulate Connection</button>
-        <button id="btn-simulate-disconnect">- Simulate Disconnect</button>
-      </div>
+  </div>
+
+  <button id="sidebar-toggle">☰</button>
+
+  <div id="sidebar">
+    <h2>OFFICE OCCUPANTS <span id="device-count">0</span></h2>
+    <ul id="device-list"></ul>
+    <div id="controls">
+      <button id="btn-simulate-connect">+ Simulate Connection</button>
+      <button id="btn-simulate-disconnect">- Simulate Disconnect</button>
     </div>
   </div>
+
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

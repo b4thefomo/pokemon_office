@@ -6,13 +6,13 @@ export class PreloadScene extends Phaser.Scene {
   constructor() { super({ key: 'PreloadScene' }); }
 
   preload(): void {
-    this.load.image('tile_desk', 'src/assets/sprites/single_table.png');
     this.load.image('ramen_logo', 'src/assets/sprites/ramen_club_logo.png');
   }
 
   create(): void {
     this.generateCharacterSprites();
     this.generateOfficeSprites();
+    this.generateTableSprite();
     this.generateRamenSprite();
     this.scene.start('OfficeScene');
   }
@@ -130,6 +130,20 @@ export class PreloadScene extends Phaser.Scene {
     g.strokePath();
 
     g.generateTexture('ramen', 32, 32);
+    g.destroy();
+  }
+
+  private generateTableSprite(): void {
+    const g = this.make.graphics({ x: 0, y: 0 });
+    // Brown wooden table surface
+    g.fillStyle(0x8b4513);
+    g.fillRoundedRect(0, 0, TILE_SIZE, TILE_SIZE, 2);
+    // Wood grain lines
+    g.lineStyle(1, 0x6b3503, 0.3);
+    g.lineBetween(4, 8, TILE_SIZE - 4, 8);
+    g.lineBetween(4, 16, TILE_SIZE - 4, 16);
+    g.lineBetween(4, 24, TILE_SIZE - 4, 24);
+    g.generateTexture('tile_table', TILE_SIZE, TILE_SIZE);
     g.destroy();
   }
 }

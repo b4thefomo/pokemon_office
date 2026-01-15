@@ -7,18 +7,32 @@ import { networkScanner } from './services/networkScanner.js';
 import { deviceRegistry } from './services/deviceRegistry.js';
 import type { Device, WSMessage, FullStatePayload, DeviceEventPayload } from '../shared/types.js';
 
+// 28 chairs around 4 tables (matching client layout)
 const DESKS = [
-  { id: 1, gridX: 3, gridY: 3 }, { id: 2, gridX: 6, gridY: 3 },
-  { id: 3, gridX: 9, gridY: 3 }, { id: 4, gridX: 12, gridY: 3 },
-  { id: 5, gridX: 15, gridY: 3 }, { id: 6, gridX: 18, gridY: 3 },
-  { id: 7, gridX: 3, gridY: 7 }, { id: 8, gridX: 6, gridY: 7 },
-  { id: 9, gridX: 9, gridY: 7 }, { id: 10, gridX: 12, gridY: 7 },
-  { id: 11, gridX: 15, gridY: 7 }, { id: 12, gridX: 18, gridY: 7 },
-  { id: 13, gridX: 3, gridY: 11 }, { id: 14, gridX: 6, gridY: 11 },
-  { id: 15, gridX: 9, gridY: 11 }, { id: 16, gridX: 12, gridY: 11 },
-  { id: 17, gridX: 15, gridY: 11 }, { id: 18, gridX: 18, gridY: 11 },
-  { id: 19, gridX: 3, gridY: 15 }, { id: 20, gridX: 6, gridY: 15 },
-  { id: 21, gridX: 9, gridY: 15 }, { id: 22, gridX: 12, gridY: 15 },
+  // Table 1 - Top side (5 chairs)
+  { id: 1, gridX: 3, gridY: 3 }, { id: 2, gridX: 4, gridY: 3 },
+  { id: 3, gridX: 5, gridY: 3 }, { id: 4, gridX: 6, gridY: 3 },
+  { id: 5, gridX: 7, gridY: 3 },
+  // Table 1 - Bottom side (5 chairs)
+  { id: 6, gridX: 3, gridY: 6 }, { id: 7, gridX: 4, gridY: 6 },
+  { id: 8, gridX: 5, gridY: 6 }, { id: 9, gridX: 6, gridY: 6 },
+  { id: 10, gridX: 7, gridY: 6 },
+  // Table 2 - Top side (2 chairs)
+  { id: 11, gridX: 17, gridY: 3 }, { id: 12, gridX: 18, gridY: 3 },
+  // Table 2 - Bottom side (2 chairs)
+  { id: 13, gridX: 17, gridY: 6 }, { id: 14, gridX: 18, gridY: 6 },
+  // Table 3 - Top side (5 chairs)
+  { id: 15, gridX: 3, gridY: 10 }, { id: 16, gridX: 4, gridY: 10 },
+  { id: 17, gridX: 5, gridY: 10 }, { id: 18, gridX: 6, gridY: 10 },
+  { id: 19, gridX: 7, gridY: 10 },
+  // Table 3 - Bottom side (5 chairs)
+  { id: 20, gridX: 3, gridY: 13 }, { id: 21, gridX: 4, gridY: 13 },
+  { id: 22, gridX: 5, gridY: 13 }, { id: 23, gridX: 6, gridY: 13 },
+  { id: 24, gridX: 7, gridY: 13 },
+  // Table 4 - Top side (2 chairs)
+  { id: 25, gridX: 17, gridY: 10 }, { id: 26, gridX: 18, gridY: 10 },
+  // Table 4 - Bottom side (2 chairs)
+  { id: 27, gridX: 17, gridY: 13 }, { id: 28, gridX: 18, gridY: 13 },
 ];
 
 const app = express();
@@ -98,9 +112,10 @@ app.post('/api/simulate/disconnect', (req, res) => {
   else res.status(404).json({ error: 'Device not found' });
 });
 
-server.listen(config.server.port, () => {
-  console.log(`Server: http://localhost:${config.server.port}`);
-  console.log(`WebSocket: ws://localhost:${config.server.port}/ws`);
+server.listen(config.server.port, '0.0.0.0', () => {
+  console.log(`Server: http://0.0.0.0:${config.server.port}`);
+  console.log(`WebSocket: ws://0.0.0.0:${config.server.port}/ws`);
+  console.log(`Access from network: http://192.168.1.192:${config.server.port}`);
   networkScanner.start();
 });
 
