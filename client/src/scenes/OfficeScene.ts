@@ -25,9 +25,26 @@ export class OfficeScene extends Phaser.Scene {
     this.drawOffice();
     this.setupWebSocket();
     this.activityManager.start();
-    // Title with ramen logo
-    this.add.image(320, 26, 'ramen_logo').setDepth(10);
-    this.add.text(420, 16, 'RAMEN SPACE', { fontSize: '20px', color: '#57FDD0', fontStyle: 'bold' }).setOrigin(0.5, 0).setDepth(10);
+    // Title with ramen logo - vertically aligned with pulse animation
+    const logoX = 400;
+    const logoY = 24;
+    const logo = this.add.image(logoX - 60, logoY, 'ramen_logo').setDepth(10).setOrigin(0.5, 0.5);
+    const title = this.add.text(logoX + 10, logoY, 'RAMEN SPACE', {
+      fontSize: '20px',
+      color: '#57FDD0',
+      fontStyle: 'bold'
+    }).setOrigin(0, 0.5).setDepth(10);
+
+    // Pulse animation for logo and title
+    this.tweens.add({
+      targets: [logo, title],
+      scale: { from: 1, to: 1.05 },
+      alpha: { from: 1, to: 0.85 },
+      duration: 1000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    });
 
     // Digital clock in top-right corner
     this.clockText = this.add.text(775, 16, '', {
