@@ -128,9 +128,10 @@ export class OfficeScene extends Phaser.Scene {
     const list = document.getElementById('device-list');
     if (!list) return;
     list.innerHTML = '';
-    for (const d of this.deviceList) {
+    // Only show online devices
+    const onlineDevices = this.deviceList.filter(d => d.online);
+    for (const d of onlineDevices) {
       const li = document.createElement('li');
-      li.className = d.online ? '' : 'offline';
       const color = CHARACTER_COLORS[d.characterId];
       const hex = color ? `#${color.color.toString(16).padStart(6, '0')}` : '#888';
       const emoji = this.getDeviceEmoji(d.deviceType);
